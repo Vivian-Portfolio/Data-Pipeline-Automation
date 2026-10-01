@@ -132,7 +132,7 @@ Load to CSV + SQLite
 
 ---
 
-## 8. Analysis & Metrics
+## 7. Analysis & Metrics
 
 ### Analytical Approach
 
@@ -153,7 +153,7 @@ Analytical Approach: This was exploratory, single-snapshot comparison work rathe
 
 ---
 
-## 9. Key Insights
+## 8. Key Insights
 
 **Insight 1: Kano was the hottest and driest city.** Kano recorded the highest temperature (33.17°C) and the lowest humidity (43%), and was the only city with cloudy rather than rainy conditions — suggesting drier air in the north at the time of collection.
 
@@ -175,7 +175,7 @@ Analytical Approach: This was exploratory, single-snapshot comparison work rathe
 
 ---
 
-## 11. Assumptions & Limitations
+## 10. Assumptions & Limitations
 
 Assumptions
 
@@ -195,14 +195,14 @@ No automated scheduling — the pipeline must be re-run manually to get updated 
 
 ---
 
-## 12. Future Enhancements
+## 11. Future Enhancements
 - [ ] Schedule the pipeline to run daily and append to a growing historical table
 - [ ] Add a simple visualization layer (line/bar charts for temperature and humidity trends)
 - [ ] Expand to more cities across different regions/climates for a stronger comparison
 
 ---
 
-## 13. Deliverables
+## 12. Deliverables
 
 | Deliverable | Description | Location |
 |-------------|-------------|----------|
@@ -214,7 +214,7 @@ No automated scheduling — the pipeline must be re-run manually to get updated 
 
 ---
 
-## 14. Author
+## 13. Author
 
 **Vivian Okwara**
 Data Analyst | Lagos, Nigeria 
