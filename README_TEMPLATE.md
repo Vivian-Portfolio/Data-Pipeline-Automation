@@ -1,5 +1,5 @@
-# [Project Title]
-> *One sentence. What did you analyze, build, or solve - and why does it matter?*
+# Weather Data ETL Pipeline
+> A Python ETL pipeline that extracts real-time weather data from the OpenWeather API for five Nigerian cities, transforms it with Pandas, and loads it into CSV and SQLite for analysis — built to practice the core data engineering pattern behind most analytics work.*
 
 ---
 
@@ -9,13 +9,29 @@
 - [ ] Exploratory Data Analysis (EDA)
 - [ ] SQL Analysis / Querying
 - [ ] Dashboard / Data Visualization
-- [ ] Data Pipeline / ETL
+- [x] Data Pipeline / ETL
 - [ ] Predictive Modelling / Machine Learning
-- [ ] Data Cleaning / Wrangling
+- [x] Data Cleaning / Wrangling
 - [ ] End-to-End (multiple of the above)
 - [ ] Other: ___________
 
 ---
+
+Table of Contents
+Project Overview
+Objectives
+Project Scope & Tools
+Repository Structure
+Data Workflow
+Data Model & Schema
+Analysis & Metrics
+Key Insights
+Recommendations
+Assumptions & Limitations
+Future Enhancements
+Deliverables
+Author
+
 
 ## Table of Contents
 1. [Project Overview](#1-project-overview)
@@ -24,70 +40,29 @@
 4. [Repository Structure](#4-repository-structure)
 5. [Data Workflow](#5-data-workflow)
 6. [Data Model & Schema](#6-data-model--schema)
-7. [ERD - Entity Relationship Diagram](#7-erd--entity-relationship-diagram) *(SQL projects)*
-8. [Analysis & Metrics](#8-analysis--metrics)
-9. [Key Insights](#9-key-insights)
-10. [Recommendations](#10-recommendations)
-11. [Assumptions & Limitations](#11-assumptions--limitations)
-12. [Future Enhancements](#12-future-enhancements)
-13. [Deliverables](#13-deliverables)
-14. [Author](#14-author)
+7. [Analysis & Metrics](#7-analysis--metrics)
+8. [Key Insights](#8-key-insights)
+9. [Recommendations](#9-recommendations)
+10. [Assumptions & Limitations](#10-assumptions--limitations)
+11. [Future Enhancements](#11-future-enhancements)
+12. [Deliverables](#12-deliverables)
+13. [Author](#13-author)
 
 ---
 
 ## 1. Project Overview
 
-<!--
-  Write 3–5 sentences in plain language.
-  Cover: context → problem → approach → outcome.
-  Read it out loud. If it sounds like a form - rewrite it.
-
-  WHAT GOOD LOOKS LIKE:
-  "A mid-size retail business was seeing inconsistent revenue across
-  its regional stores but couldn't identify the root cause. This project
-  explored 18 months of transaction data across five regions to determine
-  whether underperformance was driven by sales volume, pricing, or return
-  rates. The analysis revealed that one region's gap was almost entirely
-  explained by an unusually high return rate on a single product category -
-  a finding invisible in the company's top-level reporting."
-
-  WHAT TO AVOID:
-  "This project analyzes sales data to find trends and insights."
-  (Too vague. Could describe 10,000 projects. Describes none of them.)
--->
-
-**Context:** [The business, research, or personal situation that motivated this project.]
-
-**Problem Statement:** [The specific question or challenge you were addressing.]
-
-**Approach:** [In 1–2 sentences - how did you tackle it?]
-
-**Outcome:** [What did you produce or discover?]
+**Context:** Data analysts often work with data from APIs, databases, and spreadsheets, none of which arrives ready for analysis — it has to be extracted, cleaned, transformed, and stored first. This project was Week 7 of the AnalystLab Africa Data Analytics Internship, focused on that exact process (ETL).
+**Problem Statement:** Build a basic ETL pipeline that pulls live weather data for multiple cities, structures it cleanly, and stores it in a reusable format for analysis.
+**Approach:** Used Python's Requests library to call the OpenWeather API for five Nigerian cities, transformed the nested JSON responses into a flat table with Pandas, and loaded the result into both a CSV file and a SQLite database.
+**Outcome:** A working, reusable ETL script plus a cleaned dataset covering current weather conditions across Lagos, Abuja, Port Harcourt, Kano, and Owerri, with a short comparative analysis of temperature, humidity, wind speed, and weather conditions.
 
 ---
 
 ## 2. Objectives
-
-<!--
-  Write objectives that are specific enough to succeed or fail.
-  Use action-oriented verbs: Identify, Determine, Quantify, Build, Evaluate.
-
-  WHAT GOOD LOOKS LIKE:
-  ✅ "Determine whether customer churn rate correlates with support ticket volume."
-  ✅ "Identify the top three revenue-driving product categories across all regions."
-  ✅ "Build a reproducible pipeline that ingests and cleans daily sales exports."
-
-  WHAT TO AVOID:
-  ❌ "Explore the data."
-  ❌ "Gain insights."
-  ❌ "Understand trends."
-  (These can't fail - which means they can't succeed either.)
--->
-
-- **Primary Objective:** [The main thing you set out to do]
-- **Secondary Objective 1:** [Supporting goal]
-- **Secondary Objective 2:** [Supporting goal]
-- **Secondary Objective 3:** [Remove if not applicable]
+**Primary Objective:** Build a working ETL pipeline that extracts, transforms, and loads real-time weather data using Python.
+**Secondary Objective 1:** Practice working with a real external API, including authentication and error handling.
+**Secondary Objective 2:** Produce a clean, structured dataset ready for comparative analysis across cities.
 
 > 💡 *Every analysis decision in this project traces back to one of these objectives.*
 
@@ -96,412 +71,178 @@
 ## 3. Project Scope & Tools
 
 ### Scope
-
-<!--
-  WHAT GOOD LOOKS LIKE:
-  In Scope: "Transaction-level data for Regions A–E, Jan 2023–Jun 2024.
-             Analysis covers revenue, return rates, and product category performance."
-  Out of Scope: "Customer demographics and marketing spend data were excluded -
-                 demographic data was incomplete for two regions, and marketing
-                 data sits in a separate system outside this engagement."
-
-  WHAT TO AVOID:
-  ❌ Leaving Out of Scope blank. This is the section that protects your credibility.
-     If you don't define the fence, reviewers assume you missed things.
--->
-
 | Dimension | Details |
 |-----------|---------|
-| **In Scope** | [What is included - data sources, time periods, segments] |
-| **Out of Scope** | [What you explicitly excluded - and a brief reason why] |
-| **Time Period** | [Date range of the data or the project itself] |
-| **Granularity** | [Unit of analysis - row-level, daily aggregates, per-user, etc.] |
+| **In Scope** | Current weather snapshot (temperature, humidity, weather condition, wind speed) for 5 Nigerian cities, pulled once via the OpenWeather Current Weather API |
+| **Out of Scope** |Historical weather data and 16-day forecasts (not available on the free OpenWeather tier); automated/scheduled re-runs |
+| **Time Period** | Single point-in-time snapshot, collected August 2026 |
+| **Granularity** | One row per city per extraction run |
 
 ### Tools & Technologies
 
-<!--
-  List only what you actually used on this project.
-  This is not your skills section - it's the project's technical context.
--->
-
 | Category | Tool(s) Used |
 |----------|-------------|
-| Data Storage | [e.g., PostgreSQL, CSV files, BigQuery, S3] |
-| Data Processing | [e.g., Python, R, SQL, Excel, dbt] |
-| Analysis | [e.g., pandas, dplyr, custom SQL queries] |
-| Visualization | [e.g., Matplotlib, Tableau, Power BI, Looker] |
-| Version Control | [e.g., Git / GitHub] |
-| Documentation | [e.g., Markdown, Notion] |
-| Other | [Any additional tools] |
+| Data Storage | CSV file, SQLite database |
+| Data Processing | Python, Pandas |
+| Analysis |Pandas (aggregate comparisons: max/min by column) |
+| Visualization | None (tabular output only) |
+| Version Control |Git / GitHub |
+| Documentation |Markdown |
+| Other | Requests (API calls), Google Colab (development environment |
 
 ---
 
 ## 4. Repository Structure
 
 ```
-[project-root]/
-│
-├── data/
-│   ├── raw/                  # Original, unmodified source data - never edited
-│   ├── processed/            # Cleaned and transformed data
-│   └── external/             # Reference data, lookup tables, third-party files
-│
-├── notebooks/                # Jupyter, R Markdown, or Colab notebooks
-│
-├── scripts/                  # Reusable .py, .R, or .sh processing files
-│
-├── queries/                  # SQL files (retain this folder for SQL-heavy projects)
-│   ├── exploratory/          # Ad-hoc or investigative queries
-│   ├── transformations/      # Cleaning and reshaping logic
-│   └── final/                # Production-ready or presentation queries
-│
-├── reports/                  # Final outputs: PDFs, slide decks, Word docs
-│
-├── visuals/                  # Exported charts, dashboard screenshots, ERD diagrams
-│
-├── docs/                     # Data dictionaries, schema notes, reference material
-│
-├── project_metadata.yml      # Machine-readable metadata (optional)
-└── README.md                 # You are here
+weather-etl-pipeline/
+├── weather_etl.py          # Full ETL pipeline script (extract, transform, load, analyze)
+├── weather_data.csv        # Processed dataset (output)
+├── weather_data.db         # SQLite database version of the same data (output)
+├── notebooks/
+│   └── weather_etl.ipynb   # Google Colab notebook used for development
+└── README.md               # You are here
 ```
-
-> ⚠️ *Delete folders you didn't use. An empty folder is worse than no folder.*
-> SQL-heavy projects: keep `queries/`. Analysis-only projects: keep `notebooks/`. Both? Keep both.
-
 ---
 
 ## 5. Data Workflow
 
-<!--
-  Show how data moved through your project - from source to output.
-  Every transformation decision should be traceable here.
 
-  WHAT GOOD LOOKS LIKE:
-  1. Source: "Monthly CSV exports pulled from the internal POS system.
-              Five files, one per region, covering Jan 2023–Jun 2024."
-  2. Ingestion: "Loaded into Python using pandas. Files concatenated into
-                 a single dataframe (approx. 340,000 rows)."
-  3. Cleaning: "Removed 1.2% of rows with null transaction IDs.
-                Standardised date formats across regional files.
-                Resolved product category naming inconsistencies (3 variants → 1)."
-  4. Transformation: "Created a returns_rate field at product-category level.
-                      Aggregated to weekly and regional grain for trend analysis."
-  5. Analysis: "Descriptive statistics, regional comparison, return rate
-                segmentation by product category."
-  6. Output: "Summary report (PDF), annotated notebook, processed CSV."
-
-  WHAT TO AVOID:
-  ❌ "Data was cleaned and analysed." (No chain. No decisions. No trust.)
--->
 
 ```
-[Data Source(s)]
-      ↓
-[Ingestion / Collection Method]
-      ↓
-[Cleaning & Transformation]
-      ↓
-[Analysis / Modelling / Querying]
-      ↓
-[Output / Visualisation / Reporting]
+5. Data Workflow
+OpenWeather API (5 cities)
+        ↓
+Extraction via Python Requests
+        ↓
+Cleaning & Transformation (Pandas)
+        ↓
+Load to CSV + SQLite
+        ↓
 ```
 
-1. **Source:** [Where did the data come from? Format, size, access method.]
-2. **Ingestion:** [How was it brought in?]
-3. **Cleaning:** [What issues did you find and fix?]
-4. **Transformation:** [What new fields, aggregations, or structures did you create?]
-5. **Analysis:** [What methods - statistical, visual, query-based, model-based?]
-6. **Output:** [What form do the results take?]
+**Source:** OpenWeather Current Weather Data API — live JSON response per city, accessed via a free-tier API key.
+**Ingestion:** extract_weather() sends a GET request per city with the API key and unit settings; extract_all() loops through the city list and skips any city that fails, logging the error instead of crashing the pipeline.
+**Cleaning:** Renamed raw API field names to clear, analysis-friendly column names (e.g. temp → temperature_c); title-cased weather descriptions for consistency.
+**Transformation:** Converted temperature and wind speed to floats, humidity to an integer, and the retrieval time to a proper datetime; added a retrieved_at_utc timestamp column.
+**Analysis:** Compared temperature, humidity, and wind speed across cities using Pandas idxmax()/idxmin(), and compared weather conditions city by city.
+**Output:** A tidy DataFrame saved to both weather_data.csv and a weather table inside weather_data.db.
 
 ---
 
 ## 6. Data Model & Schema
 
-<!--
-  Define your fields so that someone reading your analysis can follow along
-  without digging through your code.
+### Dataset / Table: `weather`
 
-  WHAT GOOD LOOKS LIKE (one row example):
-  | transaction_id | string | Unique identifier per sales transaction | TXN-00482 |
-  | return_flag    | boolean | Whether the transaction included a return | TRUE |
-  | region_code    | string | Two-letter identifier for store region | "NE" |
+city
 
-  WHAT TO AVOID:
-  ❌ Skipping this section because "the field names are self-explanatory."
-     They're not. Not to a reviewer. Not to you in six months.
 
-  📌 FOR SQL PROJECTS: If you have multiple tables, create one block per table.
-     Describe join keys and relationships here. Your ERD (Section 7) will
-     visualise what this section describes in text.
 
-  📌 FOR NON-SQL PROJECTS: Describe the shape of your dataset informally
-     if a formal schema doesn't apply. Even one paragraph is more helpful than nothing.
--->
 
-### Dataset / Table: `[name]`
+
+
+
+
+
+
+
+int
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 | Field Name | Data Type | Description | Example Value |
 |------------|-----------|-------------|---------------|
-| `[field_1]` | [string / int / date / float / boolean] | [What this field represents] | [Non-sensitive example] |
-| `[field_2]` | [string / int / date / float / boolean] | [What this field represents] | [Non-sensitive example] |
-| `[field_3]` | [string / int / date / float / boolean] | [What this field represents] | [Non-sensitive example] |
+| `city` | string | City name as returned by OpenWeather | Lagos |
+| `country` | string | ISO country code | NG |
+| `temperature_c` | float | Current temperature in Celsius | 29.28 |
+| `humidity_pct` | int | Relative humidity percentage| 64 |
+| `weather_condition` | string | High-level weather category | Rain |
+| `wind_speed_mps` | float | Wind speed in meters per second | 3.96|
+| `retrieved_at_utc` | datetime | Timestamp the record was pulled | 2026-08-12 11:55:42 |
 
-> **Row count (approx.):** [X rows]
-> **Date range:** [Start] – [End]
-> **Key join / relationship:** [e.g., `orders.customer_id` → `customers.id`]
-
-*Add additional table blocks as needed for multi-table projects.*
-
----
-
-## 7. ERD - Entity Relationship Diagram
-### *(Primarily for SQL Projects - remove this section if not applicable)*
-
-<!--
-  An ERD shows how your tables connect to each other visually.
-  It is the fastest way for a reviewer to understand the data structure
-  of a SQL project without reading every query.
-
-  HOW TO INCLUDE YOUR ERD:
-  Option A - Image embed (most common):
-    Export your ERD from dbdiagram.io, DBeaver, Lucidchart, or similar.
-    Save to /visuals/erd.png and reference it below.
-
-  Option B - dbdiagram.io code block (version-controllable):
-    Paste your schema definition code directly in the fenced block below.
-    Anyone can paste it into dbdiagram.io to regenerate the visual.
-
-  Option C - Mermaid diagram (renders natively in GitHub):
-    Use the mermaid code block syntax below.
-    GitHub will render this as a diagram automatically.
-
-  PICK ONE. Don't use all three. Delete the options you don't use.
--->
-
-### Option A - Embedded Image
-![ERD Diagram](visuals/erd.png)
-*[Brief caption: e.g., "Three-table schema - orders, customers, and products joined on shared IDs."]*
-
----
-
-### Option B - dbdiagram.io Schema Definition
-```
-Table orders {
-  order_id    int     [pk]
-  customer_id int     [ref: > customers.customer_id]
-  product_id  int     [ref: > products.product_id]
-  order_date  date
-  amount      float
-}
-
-Table customers {
-  customer_id int  [pk]
-  region_code string
-  signup_date date
-}
-
-Table products {
-  product_id   int    [pk]
-  category     string
-  unit_price   float
-}
-```
-*Paste this into [dbdiagram.io](https://dbdiagram.io) to view the visual.*
-
----
-
-### Option C - Mermaid Diagram *(renders on GitHub)*
-```mermaid
-erDiagram
-    ORDERS {
-        int order_id PK
-        int customer_id FK
-        int product_id FK
-        date order_date
-        float amount
-    }
-    CUSTOMERS {
-        int customer_id PK
-        string region_code
-        date signup_date
-    }
-    PRODUCTS {
-        int product_id PK
-        string category
-        float unit_price
-    }
-    ORDERS ||--o{ CUSTOMERS : "placed by"
-    ORDERS ||--o{ PRODUCTS : "contains"
-```
-
----
-
-**Table Relationships Summary:**
-
-| Relationship | Join Key | Type |
-|-------------|----------|------|
-| `orders` → `customers` | `customer_id` | Many-to-One |
-| `orders` → `products` | `product_id` | Many-to-One |
-| [Add rows as needed] | | |
+> **Row count (approx.):** Row count: 5 rows (one per city). No multi-table joins — single flat table.
 
 ---
 
 ## 8. Analysis & Metrics
 
-<!--
-  Explain what you measured and how - before you share what you found.
-
-  WHAT GOOD LOOKS LIKE:
-  Metric: "Customer Return Rate"
-  Definition: "Number of transactions flagged as returns divided by total
-               transactions, calculated at product-category and regional grain."
-  Why It Matters: "Return rate - not sales volume - was hypothesised to
-                  explain regional revenue gaps. This metric tests that hypothesis."
-
-  WHAT TO AVOID:
-  ❌ Defining a metric only in code: SUM(returns) / COUNT(transaction_id)
-     That's an implementation. Write the plain-language definition here.
-     Both belong in your project - the definition in the README,
-     the implementation in the code.
--->
-
 ### Analytical Approach
 
-[Describe how you approached the analysis. Were you exploring patterns? Testing a hypothesis? Building and validating a pipeline? Be honest about your method - exploratory work is valid, just call it that.]
+Analytical Approach: This was exploratory, single-snapshot comparison work rather than hypothesis testing — the goal was to practice extracting and structuring data cleanly, then compare a few straightforward metrics across cities.
 
 ### Key Metrics Defined
 
 | Metric | Plain-Language Definition | Why It Matters |
 |--------|--------------------------|----------------|
-| `[Metric 1]` | [What it measures, in one sentence] | [What decision or question it answers] |
-| `[Metric 2]` | [What it measures, in one sentence] | [What decision or question it answers] |
+| `Temperature (°C)` |How hot or cold each city was at extraction time | Basic comparative weather signal across regions |
+| `Humidity (%)` |How much moisture was in the air | Indicates likelihood of rain/discomfort, complements temperature |
+| `Wind Speed (m/s)` | How fast the wind was blowing |Adds context to "feels like" conditions |
 | `[Metric 3]` | [What it measures, in one sentence] | [What decision or question it answers] |
 
 ### Methods Used
-
-- [e.g., Descriptive statistics - distribution, central tendency, outlier detection]
-- [e.g., Trend analysis across [time period]]
-- [e.g., Segmentation / group comparison by [dimension]]
-- [e.g., Correlation analysis between [variable A] and [variable B]]
-- [e.g., SQL window functions for [specific aggregation]]
-- [e.g., Custom aggregation or transformation logic in [tool]]
+- Descriptive comparison (max/min) across cities for temperature, humidity, and wind speed
+- Categorical comparison of weather conditions city by city
 
 ---
 
 ## 9. Key Insights
 
-<!--
-  Findings + implications. Not just what happened - what it means.
+**Insight 1: Kano was the hottest and driest city.** Kano recorded the highest temperature (33.17°C) and the lowest humidity (43%), and was the only city with cloudy rather than rainy conditions — suggesting drier air in the north at the time of collection.
 
-  WHAT GOOD LOOKS LIKE:
-  ✅ "Return rates, not sales volume, explain Region A's underperformance.
-      Region A's return rate on home goods was 34% - more than double the
-      company average. Revenue was not lost at the point of sale; it was
-      lost post-sale through refunds. This points to a fulfilment or
-      product quality issue specific to that region, not a demand problem."
+**Insight 2: Abuja was the coolest and most humid city.** Abuja recorded the lowest temperature (26.9°C) and the highest humidity (76%), the opposite pattern from Kano.
 
-  WHAT TO AVOID:
-  ❌ "Region A had lower revenue than other regions in Q4."
-     (That's an observation. It describes what happened.
-      An insight says what it means and where to look next.)
+**Insight 3: Lagos had the strongest winds.** Lagos recorded the highest wind speed at 3.96 m/s among the five cities.
 
-  Aim for 3–6 insights. Quality over quantity.
--->
-
-**Insight 1: [Short descriptive headline]**
-[What you found + what it suggests. One short paragraph.]
-
-**Insight 2: [Short descriptive headline]**
-[What you found + what it suggests.]
-
-**Insight 3: [Short descriptive headline]**
-[What you found + what it suggests.]
-
-**Insight 4 (if applicable): [Short descriptive headline]**
-[What you found + what it suggests.]
+**Insight 4: A regional rain/cloud split emerged.** Four of five cities (Lagos, Abuja, Port Harcourt, Owerri — all southern) were experiencing rain at extraction time, while Kano (northern) alone showed cloudy skies, hinting at a broader south-vs-north weather pattern worth checking against a larger sample.
 
 ---
 
-## 10. Recommendations
-
-<!--
-  Action-oriented. Addressed to a real audience.
-  Tied explicitly to the insight that supports each one.
-
-  WHAT GOOD LOOKS LIKE:
-  Priority: High
-  Recommendation: "Conduct a fulfilment audit for home goods deliveries
-                   in Region A - specifically investigating whether returns
-                   correlate with a particular warehouse, carrier, or SKU batch."
-  Based On: Insight 1 - return rate anomaly in Region A
-  Owner: Operations / Supply Chain team
-
-  WHAT TO AVOID:
-  ❌ "Improve the return rate."
-     (Not actionable. Doesn't say who, how, or where to start.)
-  ❌ "Further analysis is needed."
-     (This is a placeholder, not a recommendation.)
--->
+## 9. Recommendations
 
 | Priority | Recommendation | Based On | Suggested Owner |
 |----------|---------------|----------|-----------------|
-| High | [Specific, actionable step] | [Insight it comes from] | [Who should act] |
-| Medium | [Specific, actionable step] | [Insight it comes from] | [Who should act] |
-| Low | [Exploratory or longer-term suggestion] | [Insight it comes from] | [Who should act] |
+| High | Automate the pipeline to run on a schedule (e.g. daily) to build a real time-series instead of a single snapshot | Current pipeline only captures one point in time  |
+| Medium | Add more cities across different Nigerian regions to test the south/north weather pattern more rigorously| Insight 4 | Project owner] |
+| Low |Add basic charts (temperature/humidity trend lines) once historical data accumulates |Limitations below | Project owner |
 
 ---
 
 ## 11. Assumptions & Limitations
 
-<!--
-  WHAT GOOD LOOKS LIKE:
-  Assumption: "Transaction records were assumed to be complete for all five regions.
-               No validation was performed against source system record counts."
-  Limitation: "The analysis cannot distinguish between returns initiated by
-               the customer vs. returns initiated by the business (e.g., recalls).
-               If business-initiated returns are concentrated in Region A, the
-               return rate finding may reflect a policy decision, not a quality issue."
+Assumptions
 
-  WHAT TO AVOID:
-  ❌ Leaving this section blank or writing "None known."
-     Every project has limitations. Documenting them is a sign of
-     analytical maturity - not a confession of failure.
--->
+Limitations
+Single point-in-time snapshot — no historical trend data (16-day forecast and history are not available on the free tier).
+Only 5 cities, all in Nigeria — not a statistically robust sample for broader climate claims.
+No automated scheduling — the pipeline must be re-run manually to get updated data.
 
 ### Assumptions
-- [What did you treat as true without being able to verify?]
-- [What simplifications did you make for scope or feasibility?]
-- [What domain rules or definitions did you accept as given?]
+- Treated each API response as accurate at the moment of retrieval, without independently verifying against another weather source.
+- Assumed the free-tier OpenWeather "current weather" endpoint is representative enough for a basic comparison exercise.
 
 ### Limitations
-- [What gaps exist in the data?]
-- [What analysis was out of scope but could affect interpretation?]
-- [What would a more rigorous version of this project include?]
-- [Are there known biases in the data source or collection method?]
-
-> *The goal here is pre-emptive Q&A. What would a thoughtful skeptic push back on? Document the answer here, before they ask.*
+- Single point-in-time snapshot — no historical trend data (16-day forecast and history are not available on the free tier).
+- Only 5 cities, all in Nigeria — not a statistically robust sample for broader climate claims.
+- No automated scheduling — the pipeline must be re-run manually to get updated data.
 
 ---
 
 ## 12. Future Enhancements
-
-<!--
-  WHAT GOOD LOOKS LIKE:
-  ✅ "Automate the monthly data pull from the POS export folder using
-      a scheduled Python script, replacing the current manual process."
-  ✅ "Expand the return rate analysis to include carrier-level data,
-      which was unavailable in this dataset but exists in the logistics system."
-
-  WHAT TO AVOID:
-  ❌ "Add a machine learning model."
-     (Vague, and disconnected from the actual findings of this project.)
-  ❌ Listing aspirational features that don't follow logically from the work.
--->
-
-- [ ] [Enhancement 1 - specific and traceable to a real gap in this project]
-- [ ] [Enhancement 2]
-- [ ] [Enhancement 3]
-- [ ] [Enhancement 4]
+- [ ] Schedule the pipeline to run daily and append to a growing historical table
+- [ ] Add a simple visualization layer (line/bar charts for temperature and humidity trends)
+- [ ] Expand to more cities across different regions/climates for a stronger comparison
 
 ---
 
@@ -509,9 +250,11 @@ erDiagram
 
 | Deliverable | Description | Location |
 |-------------|-------------|----------|
-| [Name] | [What it contains] | [`/path/to/file`] |
-| [Name] | [What it contains] | [`/path/to/file`] |
-| [Name] | [What it contains] | [`/path/to/file`] |
+| ETL Script | Full extract/transform/load/analysis pipeline | `weather_etl.py` |
+| Processed Dataset | Cleaned weather data | `weather_data.csv, weather_data.db` |
+|Notebook| Development notebook (Google Colab)| `notebooks/weather_etl.ipynb` |
+|Documentation| This README| `README.md` |
+
 
 ---
 
