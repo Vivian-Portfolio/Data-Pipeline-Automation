@@ -1,5 +1,5 @@
 # Weather Data ETL Pipeline
-> A Python ETL pipeline that extracts real-time weather data from the OpenWeather API for five Nigerian cities, transforms it with Pandas, and loads it into CSV and SQLite for analysis — built to practice the core data engineering pattern behind most analytics work.*
+> A Python ETL pipeline that extracts real-time weather data from the OpenWeather API for five Nigerian cities, transforms it with Pandas, and loads it into CSV and SQLite for analysis — built to practice the core data engineering pattern behind most analytics work.
 
 ---
 
