@@ -17,22 +17,6 @@
 
 ---
 
-Table of Contents
-Project Overview
-Objectives
-Project Scope & Tools
-Repository Structure
-Data Workflow
-Data Model & Schema
-Analysis & Metrics
-Key Insights
-Recommendations
-Assumptions & Limitations
-Future Enhancements
-Deliverables
-Author
-
-
 ## Table of Contents
 1. [Project Overview](#1-project-overview)
 2. [Objectives](#2-objectives)
@@ -60,6 +44,7 @@ Author
 ---
 
 ## 2. Objectives
+
 **Primary Objective:** Build a working ETL pipeline that extracts, transforms, and loads real-time weather data using Python.
 **Secondary Objective 1:** Practice working with a real external API, including authentication and error handling.
 **Secondary Objective 2:** Produce a clean, structured dataset ready for comparative analysis across cities.
@@ -107,8 +92,6 @@ weather-etl-pipeline/
 
 ## 5. Data Workflow
 
-
-
 ```
 5. Data Workflow
 OpenWeather API (5 cities)
@@ -133,33 +116,6 @@ Load to CSV + SQLite
 ## 6. Data Model & Schema
 
 ### Dataset / Table: `weather`
-
-city
-
-
-
-
-
-
-
-
-
-
-
-int
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 | Field Name | Data Type | Description | Example Value |
@@ -252,22 +208,20 @@ No automated scheduling — the pipeline must be re-run manually to get updated 
 |-------------|-------------|----------|
 | ETL Script | Full extract/transform/load/analysis pipeline | `weather_etl.py` |
 | Processed Dataset | Cleaned weather data | `weather_data.csv, weather_data.db` |
-|Notebook| Development notebook (Google Colab)| `notebooks/weather_etl.ipynb` |
-|Documentation| This README| `README.md` |
+| Notebook| Development notebook (Google Colab)| `notebooks/weather_etl.ipynb` |
+| Documentation| This README| `README.md` |
 
 
 ---
 
 ## 14. Author
 
-**[Your Name]**
-[Your role or title - current or target]
+**Vivian Okwara**
+Data Analyst | Lagos, Nigeria 
 
-- 🔗 [LinkedIn URL]
-- 💼 [Portfolio or GitHub profile URL]
-- 📧 [Email - optional]
-
+- 🔗 LinkedIn: https://linkedin.com/in/okwara-vivian
+- 💼 https://Vivian-Portfolio. github.io
+- 📧 Email: okwaravivian26@gmail.com
 ---
 
-*Last updated: [Month YYYY]*
-*If this template helped you, consider starring the repository.*
+*Last updated: August 2026*
